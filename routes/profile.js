@@ -11,6 +11,8 @@ const {
   getProfiles,
   getProfile,
   deleteProfile,
+  addExperience,
+  deleteExperience,
 } = require('../controllers/profile');
 
 // @route   GET api/profile/me
@@ -47,5 +49,31 @@ router.get('/user/:user_id', checkObjectId('user_id'), getProfile);
 // @desc    Delete profile, user & posts
 // @access  Private
 router.delete('/', auth, deleteProfile);
+
+// @route   PUT api/profile/experience
+// @desc    Add experience
+// @access  Private
+router.put(
+  '/experience',
+  [
+    auth,
+    [
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
+  ],
+  addExperience
+);
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience
+// @access  Private
+router.delete(
+  '/experience/:exp_id',
+  auth,
+  checkObjectId('exp_id'),
+  deleteExperience
+);
 
 module.exports = router;

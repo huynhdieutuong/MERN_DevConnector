@@ -130,3 +130,66 @@ exports.deleteProfile = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+// @route   PUT api/profile/experience
+// @desc    Add experience
+// @access  Private
+exports.addExperience = async (req, res) => {
+  // Validate
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // If not profile
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    // Build new Experience
+    const newExp = {};
+    for (let field in req.body) {
+      newExp[field] = req.body[field];
+    }
+
+    // Save experience
+    profile.experience.unshift(newExp);
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
+
+// @route   DELETE api/profile/experience/:exp_id
+// @desc    Delete experience
+// @access  Private
+exports.deleteExperience = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // If not profile
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    // Delete experience
+    profile.experience = profile.experience.filter(
+      (exp) => exp._id.toString() !== req.params.exp_id
+    );
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
