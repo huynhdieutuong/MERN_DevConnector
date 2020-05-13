@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 
 const Profile = require('../models/Profile');
+const User = require('../models/User');
 
 // @route   GET api/profile/me
 // @desc    Get current user profile
@@ -103,6 +104,27 @@ exports.getProfile = async (req, res) => {
 
     res.json(profile);
   } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
+
+// @route   DELETE api/profile
+// @desc    Delete profile, user & posts
+// @access  Private
+exports.deleteProfile = async (req, res) => {
+  try {
+    // @todo - remove user posts
+
+    // Remove profile
+    await Profile.findOneAndDelete({ user: req.user.id });
+
+    // Remove user
+    await User.findByIdAndDelete(req.user.id);
+
+    res.json({ msg: 'User deleted' });
+  } catch (error) {
     console.error(err.message);
 
     res.status(500).send('Server Error');

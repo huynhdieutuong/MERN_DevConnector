@@ -10,6 +10,7 @@ const {
   createProfile,
   getProfiles,
   getProfile,
+  deleteProfile,
 } = require('../controllers/profile');
 
 // @route   GET api/profile/me
@@ -41,5 +42,10 @@ router.get('/', getProfiles);
 // @desc    Get profile by user ID
 // @access  Public
 router.get('/user/:user_id', checkObjectId('user_id'), getProfile);
+
+// @route   DELETE api/profile
+// @desc    Delete profile, user & posts
+// @access  Private
+router.delete('/', auth, deleteProfile);
 
 module.exports = router;
