@@ -13,6 +13,8 @@ const {
   deleteProfile,
   addExperience,
   deleteExperience,
+  addEducation,
+  deleteEducation,
 } = require('../controllers/profile');
 
 // @route   GET api/profile/me
@@ -74,6 +76,33 @@ router.delete(
   auth,
   checkObjectId('exp_id'),
   deleteExperience
+);
+
+// @route   PUT api/profile/education
+// @desc    Add education
+// @access  Private
+router.put(
+  '/education',
+  [
+    auth,
+    [
+      check('school', 'School is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of study is required').not().isEmpty(),
+      check('from', 'From date is required').not().isEmpty(),
+    ],
+  ],
+  addEducation
+);
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Delete education
+// @access  Private
+router.delete(
+  '/education/:edu_id',
+  auth,
+  checkObjectId('edu_id'),
+  deleteEducation
 );
 
 module.exports = router;

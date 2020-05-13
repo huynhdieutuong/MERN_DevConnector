@@ -193,3 +193,66 @@ exports.deleteExperience = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+// @route   PUT api/profile/education
+// @desc    Add education
+// @access  Private
+exports.addEducation = async (req, res) => {
+  // Validate
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // If not profile
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    // Build new education
+    const newEdu = {};
+    for (let field in req.body) {
+      newEdu[field] = req.body[field];
+    }
+
+    // Save education
+    profile.education.unshift(newEdu);
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
+
+// @route   DELETE api/profile/education/:edu_id
+// @desc    Delete education
+// @access  Private
+exports.deleteEducation = async (req, res) => {
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+
+    // If not profile
+    if (!profile) {
+      return res.status(400).json({ msg: 'There is no profile for this user' });
+    }
+
+    // Delete education
+    profile.education = profile.education.filter(
+      (edu) => edu._id.toString() !== req.params.edu_id
+    );
+    await profile.save();
+
+    res.json(profile);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
