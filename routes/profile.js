@@ -15,6 +15,7 @@ const {
   deleteExperience,
   addEducation,
   deleteEducation,
+  github,
 } = require('../controllers/profile');
 
 // @route   GET api/profile/me
@@ -110,5 +111,10 @@ router.delete(
   checkObjectId('edu_id'),
   deleteEducation
 );
+
+// @route   GET api/profile/github/:username
+// @desc    Get user repos from Github
+// @access  Public
+router.get('/github/:username', github);
 
 module.exports = router;
