@@ -162,3 +162,80 @@ exports.unlikePost = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+// @route   PUT api/posts/comment/:id
+// @desc    Comment on a post
+// @access  Private
+exports.commentPost = async (req, res) => {
+  // Validate
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+
+    // Add new comment
+    const user = await User.findById(req.user.id).select('-password');
+
+    post.comments.unshift({
+      user: user.id,
+      text: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+    });
+
+    await post.save();
+
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
+
+// @route   DELETE api/posts/comment/:id/:comment_id
+// @desc    Delete comment on a post
+// @access  Private
+exports.delCommentPost = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+
+    if (!post) {
+      return res.status(404).json({ msg: 'Post not found' });
+    }
+
+    // Check if not comment
+    const commentExists = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+
+    if (!commentExists) {
+      return res.status(400).json({ msg: 'Comment does not exists' });
+    }
+
+    // Check user authorized
+    if (commentExists.user.toString() !== req.user.id) {
+      return res.status(400).json({ msg: 'User not authorized' });
+    }
+
+    // Remove comment and save
+    post.comments = post.comments.filter(
+      (comment) => comment._id.toString() !== req.params.comment_id
+    );
+
+    await post.save();
+
+    res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+
+    res.status(500).send('Server Error');
+  }
+};
