@@ -10,6 +10,8 @@ const {
   getPosts,
   getPost,
   deletePost,
+  likePost,
+  unlikePost,
 } = require('../controllers/posts');
 
 // @route   POST api/posts
@@ -35,5 +37,15 @@ router.get('/:id', checkObjectId('id'), getPost);
 // @desc    Delete post
 // @access  Private
 router.delete('/:id', auth, checkObjectId('id'), deletePost);
+
+// @route   PUT api/posts/like/:id
+// @desc    Like a post
+// @access  Private
+router.put('/like/:id', auth, checkObjectId('id'), likePost);
+
+// @route   PUT api/posts/unlike/:id
+// @desc    Unlike a post
+// @access  Private
+router.put('/unlike/:id', auth, checkObjectId('id'), unlikePost);
 
 module.exports = router;
