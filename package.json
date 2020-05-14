@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node server",
     "server": "nodemon server",
-    "debug": "nodemon --inspect server"
+    "debug": "nodemon --inspect server",
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Tuong Huynh",
   "license": "MIT",
