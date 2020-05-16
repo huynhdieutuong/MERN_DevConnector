@@ -8,6 +8,12 @@ import { logout } from '../../redux/actions/auth';
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
   const authLinks = (
     <Fragment>
+      <li>
+        <Link to='/dashboard'>
+          <i className='fas fa-user' />{' '}
+          <span className='hide-sm'>Dashboard</span>
+        </Link>
+      </li>
       <li onClick={logout}>
         <Link to='/'>
           <i className='fas fa-sign-out-alt' />{' '}

@@ -11,6 +11,8 @@ import { loadUser } from './redux/actions/auth';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Alert from './components/layout/Alert';
+import PrivateRoute from './components/routing/PrivateRoute';
+import PublicRoute from './components/routing/PublicRoute';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
@@ -26,12 +28,12 @@ const App = () => {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path='/' component={Landing} />
+            <PublicRoute exact path='/' component={Landing} />
             <section className='container'>
               <Alert />
-              <Route exact path='/register' component={Register} />
-              <Route exact path='/login' component={Login} />
-              <Route exact path='/dashboard' component={Dashboard} />
+              <PublicRoute exact path='/register' component={Register} />
+              <PublicRoute exact path='/login' component={Login} />
+              <PrivateRoute exact path='/dashboard' component={Dashboard} />
             </section>
           </Switch>
         </Fragment>
