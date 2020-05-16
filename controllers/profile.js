@@ -161,7 +161,13 @@ exports.addExperience = async (req, res) => {
     // Build new Experience
     const newExp = {};
     for (let field in req.body) {
-      newExp[field] = req.body[field];
+      if (field !== 'current') {
+        if (req.body[field].trim() !== '') {
+          newExp[field] = req.body[field];
+        }
+      } else {
+        newExp[field] = req.body[field];
+      }
     }
 
     // Save experience
@@ -224,7 +230,13 @@ exports.addEducation = async (req, res) => {
     // Build new education
     const newEdu = {};
     for (let field in req.body) {
-      newEdu[field] = req.body[field];
+      if (field !== 'current') {
+        if (req.body[field].trim() !== '') {
+          newEdu[field] = req.body[field];
+        }
+      } else {
+        newEdu[field] = req.body[field];
+      }
     }
 
     // Save education

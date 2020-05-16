@@ -18,6 +18,8 @@ import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
 import CreateProfile from './components/dashboard/CreateProfile';
 import EditProfile from './components/dashboard/EditProfile';
+import AddExperience from './components/dashboard/AddExperience';
+import AddEducation from './components/dashboard/AddEducation';
 
 const App = () => {
   useEffect(() => {
@@ -45,6 +47,16 @@ const App = () => {
                 exact
                 path='/edit-profile'
                 component={EditProfile}
+              />
+              <PrivateRoute
+                exact
+                path='/add-experience'
+                component={AddExperience}
+              />
+              <PrivateRoute
+                exact
+                path='/add-education'
+                component={AddEducation}
               />
             </section>
           </Switch>
