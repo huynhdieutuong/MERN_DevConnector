@@ -49,11 +49,15 @@ exports.createProfile = async (req, res) => {
 
   for (let field in req.body) {
     if (normalFields.test(field)) {
-      profileFields[field] = req.body[field];
+      if (req.body[field].trim() !== '') {
+        profileFields[field] = req.body[field];
+      }
     }
 
     if (socialFields.test(field)) {
-      profileFields.social[field] = req.body[field];
+      if (req.body[field].trim() !== '') {
+        profileFields.social[field] = req.body[field];
+      }
     }
 
     if (field === 'skills') {

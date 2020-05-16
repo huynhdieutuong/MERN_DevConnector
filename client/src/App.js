@@ -16,6 +16,7 @@ import PublicRoute from './components/routing/PublicRoute';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Dashboard from './components/dashboard/Dashboard';
+import CreateProfile from './components/dashboard/CreateProfile';
 
 const App = () => {
   useEffect(() => {
@@ -34,6 +35,11 @@ const App = () => {
               <PublicRoute exact path='/register' component={Register} />
               <PublicRoute exact path='/login' component={Login} />
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
+              <PrivateRoute
+                exact
+                path='/create-profile'
+                component={CreateProfile}
+              />
             </section>
           </Switch>
         </Fragment>
