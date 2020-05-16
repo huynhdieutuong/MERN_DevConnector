@@ -13,6 +13,7 @@ import Landing from './components/layout/Landing';
 import Alert from './components/layout/Alert';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
+import Dashboard from './components/dashboard/Dashboard';
 
 const App = () => {
   useEffect(() => {
@@ -30,6 +31,7 @@ const App = () => {
               <Alert />
               <Route exact path='/register' component={Register} />
               <Route exact path='/login' component={Login} />
+              <Route exact path='/dashboard' component={Dashboard} />
             </section>
           </Switch>
         </Fragment>
