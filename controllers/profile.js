@@ -282,11 +282,17 @@ exports.deleteEducation = async (req, res) => {
 // @access  Public
 exports.github = async (req, res) => {
   try {
-    const result = await axios.get(
+    const uri = encodeURI(
       `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
     );
+    const headers = {
+      'user-agent': 'node.js',
+      Authorization: `token ${config.get('githubToken')}`,
+    };
 
-    res.json(result.data);
+    const gitHubResponse = await axios.get(uri, { headers });
+
+    res.json(gitHubResponse.data);
   } catch (err) {
     console.error(err.message);
     res.status(404).json({ msg: 'No Github profile found' });
