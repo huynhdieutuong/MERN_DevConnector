@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getCurrentProfile, createProfile } from '../../redux/actions/profile';
 
 const CreateProfile = ({
-  profile: { loading, profile },
+  profile: { profile },
   getCurrentProfile,
   createProfile,
   history,
@@ -249,5 +249,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, createProfile })(
-  withRouter(CreateProfile)
+  CreateProfile
 );

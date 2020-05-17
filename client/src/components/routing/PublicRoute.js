@@ -3,30 +3,18 @@ import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import Spinner from '../layout/Spinner';
-
 const PublicRoute = ({
   component: Component,
-  auth: { loading, isAuthenticated },
+  auth: { isAuthenticated },
   ...rest
-}) => {
-  if (loading) {
-    return <Spinner />;
-  }
-
-  return (
-    <Route
-      {...rest}
-      render={(props) =>
-        !isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to='/dashboard' />
-        )
-      }
-    />
-  );
-};
+}) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      !isAuthenticated ? <Component {...props} /> : <Redirect to='/dashboard' />
+    }
+  />
+);
 
 PublicRoute.propTypes = {
   auth: PropTypes.object.isRequired,

@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link, Redirect, withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getCurrentProfile, createProfile } from '../../redux/actions/profile';
@@ -73,7 +73,7 @@ const EditProfile = ({
   };
 
   if (!profile) {
-    return <Redirect to='/create-profile' />;
+    return <Redirect to='/dashboard' />;
   }
 
   return (
@@ -265,5 +265,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { getCurrentProfile, createProfile })(
-  withRouter(EditProfile)
+  EditProfile
 );

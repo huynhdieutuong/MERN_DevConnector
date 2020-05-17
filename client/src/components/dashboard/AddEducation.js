@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEducation } from '../../redux/actions/profile';
 
-const AddEducation = ({ addEducation, history }) => {
+const AddEducation = ({ addEducation, history, profile: { profile } }) => {
   const [formData, setFormData] = useState({
     school: '',
     degree: '',
@@ -32,6 +32,10 @@ const AddEducation = ({ addEducation, history }) => {
     e.preventDefault();
     addEducation(formData, history);
   };
+
+  if (!profile) {
+    return <Redirect to='/dashboard' />;
+  }
 
   return (
     <Fragment>
@@ -116,6 +120,11 @@ const AddEducation = ({ addEducation, history }) => {
 
 AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired,
+  profile: PropTypes.object.isRequired,
 };
 
-export default connect(null, { addEducation })(withRouter(AddEducation));
+const mapStateToProps = (state) => ({
+  profile: state.profile,
+});
+
+export default connect(mapStateToProps, { addEducation })(AddEducation);
