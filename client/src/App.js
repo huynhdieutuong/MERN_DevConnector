@@ -20,6 +20,7 @@ import CreateProfile from './components/dashboard/CreateProfile';
 import EditProfile from './components/dashboard/EditProfile';
 import AddExperience from './components/dashboard/AddExperience';
 import AddEducation from './components/dashboard/AddEducation';
+import Profiles from './components/profiles/Profiles';
 
 const App = () => {
   useEffect(() => {
@@ -58,6 +59,7 @@ const App = () => {
                 path='/add-education'
                 component={AddEducation}
               />
+              <Route exact path='/profiles' component={Profiles} />
             </section>
           </Switch>
         </Fragment>
