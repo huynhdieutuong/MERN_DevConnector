@@ -502,6 +502,13 @@ nav a:hover {
 .post img {
   width: 150px;
 }
+
+.post .post-date {
+  color: #aaa;
+  font-size: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
 @media (max-width: 700px) {
   .hide-sm {
     display: none;
