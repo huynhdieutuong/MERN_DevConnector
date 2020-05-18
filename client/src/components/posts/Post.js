@@ -15,7 +15,7 @@ const Post = ({ match, getPost, post: { post, loading } }) => {
     // eslint-disable-next-line
   }, []);
 
-  if (loading) {
+  if (!post || loading) {
     return <Spinner />;
   }
 

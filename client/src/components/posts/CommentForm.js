@@ -1,18 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-const CommentForm = (props) => {
+import { addComment } from '../../redux/actions/post';
+
+const CommentForm = ({ addComment, post: { post } }) => {
+  const [text, setText] = useState('');
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    addComment(post._id, text);
+    setText('');
+  };
+
   return (
     <div className='post-form'>
       <div className='post-form-header bg-primary'>
         <h3>Leave A Comment</h3>
       </div>
-      <form className='form my-1'>
+      <form onSubmit={onSubmit} className='form my-1'>
         <textarea
           name='text'
           rows='5'
           placeholder='Comment on this post'
-        ></textarea>
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        />
         <button type='submit' className='btn btn-dark my-1'>
           Submit
         </button>
@@ -21,6 +34,13 @@ const CommentForm = (props) => {
   );
 };
 
-CommentForm.propTypes = {};
+CommentForm.propTypes = {
+  addComment: PropTypes.func.isRequired,
+  post: PropTypes.object.isRequired,
+};
 
-export default CommentForm;
+const mapStateToProps = (state) => ({
+  post: state.post,
+});
+
+export default connect(mapStateToProps, { addComment })(CommentForm);

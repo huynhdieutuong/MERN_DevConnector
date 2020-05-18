@@ -7,6 +7,7 @@ import {
   DELETE_POST,
   UPDATE_LIKES,
   GET_POST,
+  UPDATE_COMMENTS,
 } from '../types';
 
 export const getPosts = () => async (dispatch) => {
@@ -120,5 +121,51 @@ export const getPost = (id) => async (dispatch) => {
         status: err.response.status,
       },
     });
+  }
+};
+
+export const addComment = (id, text) => async (dispatch) => {
+  text = text.trim() === '' ? null : text.trim();
+
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  try {
+    const res = await axios.put(`/api/posts/comment/${id}`, { text }, config);
+
+    dispatch({
+      type: UPDATE_COMMENTS,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Comment Added', 'success'));
+  } catch (err) {
+    const msg = err.response.data.msg;
+
+    if (msg) {
+      dispatch(setAlert(msg, 'danger'));
+    }
+  }
+};
+
+export const removeComment = (id, commentId) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/posts/comment/${id}/${commentId}`);
+
+    dispatch({
+      type: UPDATE_COMMENTS,
+      payload: res.data,
+    });
+
+    dispatch(setAlert('Comment Removed', 'success'));
+  } catch (err) {
+    const msg = err.response.data.msg;
+
+    if (msg) {
+      dispatch(setAlert(msg, 'danger'));
+    }
   }
 };
