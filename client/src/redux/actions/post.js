@@ -1,6 +1,12 @@
 import axios from 'axios';
 import { setAlert } from './alert';
-import { GET_POSTS, POST_ERROR, ADD_POST, DELETE_POST } from '../types';
+import {
+  GET_POSTS,
+  POST_ERROR,
+  ADD_POST,
+  DELETE_POST,
+  UPDATE_LIKES,
+} from '../types';
 
 export const getPosts = () => async (dispatch) => {
   try {
@@ -54,6 +60,40 @@ export const deletePost = (id) => async (dispatch) => {
     });
 
     dispatch(setAlert('Post Removed', 'success'));
+  } catch (err) {
+    const msg = err.response.data.msg;
+
+    if (msg) {
+      dispatch(setAlert(msg, 'danger'));
+    }
+  }
+};
+
+export const addLike = (id) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/posts/like/${id}`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { id, likes: res.data },
+    });
+  } catch (err) {
+    const msg = err.response.data.msg;
+
+    if (msg) {
+      dispatch(setAlert(msg, 'danger'));
+    }
+  }
+};
+
+export const removeLike = (id) => async (dispatch) => {
+  try {
+    const res = await axios.put(`/api/posts/unlike/${id}`);
+
+    dispatch({
+      type: UPDATE_LIKES,
+      payload: { id, likes: res.data },
+    });
   } catch (err) {
     const msg = err.response.data.msg;
 

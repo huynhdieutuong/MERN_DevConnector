@@ -4,11 +4,13 @@ import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import { deletePost } from '../../redux/actions/post';
+import { deletePost, addLike, removeLike } from '../../redux/actions/post';
 
 const PostItem = ({
   post: { _id, avatar, name, text, user, likes, comments, date },
   deletePost,
+  addLike,
+  removeLike,
   auth,
 }) => {
   return (
@@ -24,11 +26,11 @@ const PostItem = ({
         <p className='post-date'>
           Posted on <Moment format='YYYY/MM/DD'>{date}</Moment>
         </p>
-        <button className='btn'>
+        <button onClick={() => addLike(_id)} className='btn'>
           <i className='fas fa-thumbs-up'></i>{' '}
           <span>{likes.length > 0 && likes.length}</span>
         </button>
-        <button className='btn'>
+        <button onClick={() => removeLike(_id)} className='btn'>
           <i className='fas fa-thumbs-down'></i>
         </button>
         <Link to={`/posts/${_id}`} className='btn btn-primary'>
@@ -51,6 +53,8 @@ const PostItem = ({
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
   deletePost: PropTypes.func.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeLike: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
 };
 
@@ -58,4 +62,6 @@ const mapStateToProps = (state) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { deletePost })(PostItem);
+export default connect(mapStateToProps, { deletePost, addLike, removeLike })(
+  PostItem
+);
