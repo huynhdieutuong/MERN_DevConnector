@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { getPosts } from '../../redux/actions/post';
 import PostItem from './PostItem';
+import PostForm from './PostForm';
 import Spinner from '../layout/Spinner';
 
 const Posts = ({ post: { posts, loading }, getPosts }) => {
@@ -22,6 +23,8 @@ const Posts = ({ post: { posts, loading }, getPosts }) => {
       <p className='lead'>
         <i className='fas fa-user'></i> Welcome to the community
       </p>
+
+      <PostForm />
 
       <div className='posts'>
         {posts.length > 0 ? (

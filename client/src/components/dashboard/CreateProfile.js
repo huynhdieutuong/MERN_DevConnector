@@ -4,9 +4,10 @@ import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getCurrentProfile, createProfile } from '../../redux/actions/profile';
+import Spinner from '../layout/Spinner';
 
 const CreateProfile = ({
-  profile: { profile },
+  profile: { profile, loading },
   getCurrentProfile,
   createProfile,
   history,
@@ -55,6 +56,10 @@ const CreateProfile = ({
     e.preventDefault();
     createProfile(formData, history);
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   if (profile) {
     return <Redirect to='/dashboard' />;

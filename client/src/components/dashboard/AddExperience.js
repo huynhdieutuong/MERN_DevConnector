@@ -1,10 +1,21 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addExperience } from '../../redux/actions/profile';
+import { addExperience, getCurrentProfile } from '../../redux/actions/profile';
+import Spinner from '../layout/Spinner';
 
-const AddExperience = ({ addExperience, history, profile: { profile } }) => {
+const AddExperience = ({
+  addExperience,
+  history,
+  profile: { profile, loading },
+  getCurrentProfile,
+}) => {
+  useEffect(() => {
+    getCurrentProfile();
+    // eslint-disable-next-line
+  }, []);
+
   const [formData, setFormData] = useState({
     company: '',
     title: '',
@@ -24,6 +35,10 @@ const AddExperience = ({ addExperience, history, profile: { profile } }) => {
     e.preventDefault();
     addExperience(formData, history);
   };
+
+  if (loading) {
+    return <Spinner />;
+  }
 
   if (!profile) {
     return <Redirect to='/dashboard' />;
@@ -113,10 +128,13 @@ const AddExperience = ({ addExperience, history, profile: { profile } }) => {
 AddExperience.propTypes = {
   addExperience: PropTypes.func.isRequired,
   profile: PropTypes.object.isRequired,
+  getCurrentProfile: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
 });
 
-export default connect(mapStateToProps, { addExperience })(AddExperience);
+export default connect(mapStateToProps, { addExperience, getCurrentProfile })(
+  AddExperience
+);

@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Moment from 'react-moment';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { deletePost } from '../../redux/actions/post';
 
 const PostItem = ({
   post: { _id, avatar, name, text, user, likes, comments, date },
+  deletePost,
+  auth,
 }) => {
   return (
     <div className='post bg-whitee my-1 p-1'>
@@ -29,6 +34,15 @@ const PostItem = ({
         <Link to={`/posts/${_id}`} className='btn btn-primary'>
           Discussion {comments.length > 0 && comments.length}
         </Link>
+        {auth.user && auth.user._id === user && (
+          <button
+            onClick={() => deletePost(_id)}
+            type='button'
+            className='btn btn-danger'
+          >
+            <i className='fas fa-times' />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -36,6 +50,12 @@ const PostItem = ({
 
 PostItem.propTypes = {
   post: PropTypes.object.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default PostItem;
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
+export default connect(mapStateToProps, { deletePost })(PostItem);
