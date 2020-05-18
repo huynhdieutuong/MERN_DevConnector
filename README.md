@@ -6,9 +6,9 @@ This is a MERN stack application. It is a small social network app that includes
 
 ## Demo Live
 
-### The App is live at [Heroku.com]()
+### The App is live at [Heroku.com](https://tuong-devconnector.herokuapp.com/)
 
-### The API is live at [Swagger.io]()
+### The API is live at [getpostman.com](https://documenter.getpostman.com/view/6870044/SzmmVamw?version=latest)
 
 ---
 
@@ -19,7 +19,8 @@ This is a MERN stack application. It is a small social network app that includes
 ```
 {
   "mongoURI": "<your_mongoDB_URI>",
-  "jwtSecret: "secret"
+  "jwtSecret: "secret",
+  "githubToken": "<your_github_token>"
 }
 ```
 
