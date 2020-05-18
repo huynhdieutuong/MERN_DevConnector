@@ -10,18 +10,8 @@ import { loadUser } from './redux/actions/auth';
 // Components
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import Alert from './components/layout/Alert';
-import PrivateRoute from './components/routing/PrivateRoute';
 import PublicRoute from './components/routing/PublicRoute';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
-import Dashboard from './components/dashboard/Dashboard';
-import CreateProfile from './components/dashboard/CreateProfile';
-import EditProfile from './components/dashboard/EditProfile';
-import AddExperience from './components/dashboard/AddExperience';
-import AddEducation from './components/dashboard/AddEducation';
-import Profiles from './components/profiles/Profiles';
-import Profile from './components/profiles/Profile';
+import Routes from './components/routing/Routes';
 
 const App = () => {
   useEffect(() => {
@@ -35,34 +25,7 @@ const App = () => {
           <Navbar />
           <Switch>
             <PublicRoute exact path='/' component={Landing} />
-            <section className='container'>
-              <Alert />
-              <PublicRoute exact path='/register' component={Register} />
-              <PublicRoute exact path='/login' component={Login} />
-              <PrivateRoute exact path='/dashboard' component={Dashboard} />
-              <PrivateRoute
-                exact
-                path='/create-profile'
-                component={CreateProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/edit-profile'
-                component={EditProfile}
-              />
-              <PrivateRoute
-                exact
-                path='/add-experience'
-                component={AddExperience}
-              />
-              <PrivateRoute
-                exact
-                path='/add-education'
-                component={AddEducation}
-              />
-              <Route exact path='/profiles' component={Profiles} />
-              <Route exact path='/profile/:id' component={Profile} />
-            </section>
+            <Route component={Routes} />
           </Switch>
         </Fragment>
       </Router>

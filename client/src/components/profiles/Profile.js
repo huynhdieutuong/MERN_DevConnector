@@ -11,7 +11,12 @@ import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
 
-const Profile = ({ match, profile: { loading, profile }, getProfileById }) => {
+const Profile = ({
+  match,
+  profile: { loading, profile },
+  getProfileById,
+  auth: { user },
+}) => {
   useEffect(() => {
     getProfileById(match.params.id);
     // eslint-disable-next-line
@@ -27,6 +32,11 @@ const Profile = ({ match, profile: { loading, profile }, getProfileById }) => {
         Back To Profiles
       </Link>
 
+      {user && user._id === profile.user._id && (
+        <Link to='/edit-profile' className='btn btn-primary'>
+          Edit Profiles
+        </Link>
+      )}
       <div className='profile-grid my-1'>
         <ProfileTop profile={profile} />
 
@@ -49,6 +59,7 @@ Profile.propTypes = {
 
 const mapStateToProps = (state) => ({
   profile: state.profile,
+  auth: state.auth,
 });
 
 export default connect(mapStateToProps, { getProfileById })(Profile);

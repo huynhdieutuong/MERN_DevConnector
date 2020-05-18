@@ -12,7 +12,7 @@ const ProfileItem = ({
         <h2>{user.name}</h2>
         <p>{`${status} at ${company}`}</p>
         <p>{location}</p>
-        <Link to={`/profile/${user._id}`} className='btn btn-primary'>
+        <Link to={`/profiles/${user._id}`} className='btn btn-primary'>
           View Profile
         </Link>
       </div>
